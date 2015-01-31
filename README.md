@@ -1,5 +1,7 @@
 # Composer Dist Installer
 [![Build Status](https://travis-ci.org/Cube-Solutions/composer-dist-installer.svg?branch=master)](https://travis-ci.org/Cube-Solutions/composer-dist-installer)
+[![Code Coverage](https://scrutinizer-ci.com/g/Cube-Solutions/composer-dist-installer/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Cube-Solutions/composer-dist-installer/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cube-Solutions/composer-dist-installer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Cube-Solutions/composer-dist-installer/?branch=master)
 
 Automatically installs .dist files when you run composer install in your project, and optionally populates them with
 data using a very simple and intuitive templating syntax.
