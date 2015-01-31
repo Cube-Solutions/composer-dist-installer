@@ -1,4 +1,5 @@
 # Composer Dist Installer
+[![Build Status](https://travis-ci.org/Cube-Solutions/composer-dist-installer.svg?branch=master)](https://travis-ci.org/Cube-Solutions/composer-dist-installer)
 
 Automatically installs .dist files when you run composer install in your project, and optionally populates them with
 data using a very simple and intuitive templating syntax.
