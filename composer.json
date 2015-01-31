@@ -1,7 +1,7 @@
 {
   "name": "cube/composer-dist-installer",
   "description": "Install .dist template files automatically on project setup. Compatible with any PHP framework or package.",
-  "license": "GNU GPLv3",
+  "license": "MIT",
   "authors": [
     {
       "name": "Gabriel Somoza",
