@@ -1,7 +1,8 @@
 # Composer Dist Installer
-[![Build Status](https://travis-ci.org/Cube-Solutions/composer-dist-installer.svg?branch=master)](https://travis-ci.org/Cube-Solutions/composer-dist-installer)
-[![Code Coverage](https://scrutinizer-ci.com/g/Cube-Solutions/composer-dist-installer/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Cube-Solutions/composer-dist-installer/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cube-Solutions/composer-dist-installer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Cube-Solutions/composer-dist-installer/?branch=master)
+|Type|Status|
+|----|----|
+|Build|[![Build Status](https://travis-ci.org/Cube-Solutions/composer-dist-installer.svg?branch=master)](https://travis-ci.org/Cube-Solutions/composer-dist-installer) [![Code Coverage](https://scrutinizer-ci.com/g/Cube-Solutions/composer-dist-installer/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Cube-Solutions/composer-dist-installer/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Cube-Solutions/composer-dist-installer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Cube-Solutions/composer-dist-installer/?branch=master)|
+|Packagist|[![Latest Stable Version](https://poser.pugx.org/cube/composer-dist-installer/v/stable.svg)](https://packagist.org/packages/cube/composer-dist-installer) [![Total Downloads](https://poser.pugx.org/cube/composer-dist-installer/downloads.svg)](https://packagist.org/packages/cube/composer-dist-installer) [![Latest Unstable Version](https://poser.pugx.org/cube/composer-dist-installer/v/unstable.svg)](https://packagist.org/packages/cube/composer-dist-installer) [![License](https://poser.pugx.org/cube/composer-dist-installer/license.svg)](https://packagist.org/packages/cube/composer-dist-installer)|
 
 Automatically installs .dist files when you run composer install in your project, and optionally populates them with
 data using a very simple and intuitive templating syntax.
