@@ -150,6 +150,7 @@ class Generic implements ProcessorInterface
                     $default = $envs[$envMatch[1]];
                 }
             }
+            $question = str_replace('[]', "[$default]", $question);
             $result = $this->getIO()->ask($question, $default);
         }
         return $result;

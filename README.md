@@ -80,6 +80,12 @@ you may have included in the template and ask you for their value.
  
 The syntax for a parameter is `{{QUESTION|DEFAULT}}`.
 
+* `QUESTION`: should contain the entire question, including question marks etc. Optionally include `[]` anywhere in the 
+    string to specify the location of the default value within the question (otherwise there will be no indication that
+    there IS a default value).
+* `DEFAULT`: specify the default value. To use an environment variable as default use the following syntax: 
+    `=ENV[VARIABLE_NAME]`
+
 For example, consider the following template:
 ```php
 <?php
@@ -90,9 +96,9 @@ return array(
             'orm_default' => array(
                 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
                 'params' => array(
-                    'host'     => '{{Database host?|localhost}}',
-                    'port'     => '{{Database port?|3306}}',
-                    'user'     => '{{Database user?|=ENV[USER]}}', // <-- more on this one later
+                    'host'     => '{{Database host []?|localhost}}',
+                    'port'     => '{{Database port []?|3306}}',
+                    'user'     => '{{Database user []?|=ENV[USER]}}',
                     'password' => '{{Database password?}}',
                     'dbname'   => '{{Database name?}}',
                 )
