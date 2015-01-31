@@ -151,7 +151,7 @@ class Generic implements ProcessorInterface
                 }
             }
             $question = str_replace('[]', "[$default]", $question);
-            $result = $this->getIO()->ask($question, $default);
+            $result = $this->getIO()->ask(rtrim($question) . ' ', $default);
         }
         return $result;
     }
