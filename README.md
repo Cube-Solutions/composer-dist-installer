@@ -12,7 +12,7 @@ This project is designed to be framework-agnostic. All you need is to be using C
 
 Simply use Composer to install by running:
 
-    `composer require cube/composer-dist-installer:~1.0@beta`
+    composer require cube/composer-dist-installer:~1.0@beta
 
 ## Usage
 
