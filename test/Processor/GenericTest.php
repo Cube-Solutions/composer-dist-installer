@@ -52,6 +52,8 @@ class GenericTest extends TestCase
                     @unlink($file);
                     @rmdir(dirname($file));
                     break;
+                case 'no-overwrite':
+                    break;
                 default:
                     @unlink($file);
                     break;
@@ -72,7 +74,7 @@ class GenericTest extends TestCase
      */
     protected function getTemplateNames()
     {
-        return ['basic', 'params', 'env', 'overwrite', 'createdir'];
+        return ['basic', 'params', 'env', 'overwrite', 'no-overwrite', 'createdir'];
     }
 
     /**
@@ -162,25 +164,34 @@ class GenericTest extends TestCase
     {
         $processorConfig = $config['dist-installer-params'];
         $io = $this->_buildIO();
-        $writeCount = 1;
+        $writeCount = 0;
+        $assertFileExists = true;
         $processor = new Generic($io);
         $processorConfig = $this->_setupEnv($processorConfig);
 
         if (isset($config['confirmation'])) {
             $io->expects($this->once())
                 ->method('askConfirmation')
-                ->willReturn($config['confirmation']);
-            $writeCount += 1;
+                ->willReturn((bool) $config['confirmation']);
+            if ($config['confirmation'] == false) {
+                $writeCount = 0;
+                $assertFileExists = false;
+            } else {
+                $writeCount = 2;
+            }
         }
         $io->expects($this->exactly($writeCount))
             ->method('write');
         $io->expects($this->any())
             ->method('ask')
             ->willReturnArgument(1);
+
         $processor->process($processorConfig);
         $expectedFile = $processor->getConfig()['file'];
 
-        $this->assertFileExists($expectedFile);
+        if ($assertFileExists) {
+            $this->assertFileExists($expectedFile);
+        }
 
         if (isset($config['old'])) {
             $oldFile = $expectedFile . '.old';

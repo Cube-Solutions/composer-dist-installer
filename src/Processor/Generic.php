@@ -53,12 +53,16 @@ class Generic implements ProcessorInterface
         $exists = is_file($realFile);
 
         $action = $exists ? 'Rewriting' : 'Creating';
-        $this->getIO()->write(sprintf('<info>%s the "%s" file</info>', $action, $realFile));
 
-        if ($exists && $this->io->askConfirmation('Destination file already exists, overwrite (y/n)? ')) {
-            $oldFile = $realFile . '.old';
-            copy($realFile, $oldFile);
-            $this->getIO()->write(sprintf('A copy of the old configuration file was saved to %s', $oldFile));
+        if ($exists) {
+            if ($this->getIO()->askConfirmation('Destination file already exists, overwrite (y/n)? ')) {
+                $this->getIO()->write(sprintf('<info>%s the "%s" file</info>', $action, $realFile));
+                $oldFile = $realFile . '.old';
+                copy($realFile, $oldFile);
+                $this->getIO()->write(sprintf('A copy of the old configuration file was saved to %s', $oldFile));
+            } else {
+                return false;
+            }
         } else {
             if (!is_dir($dir = dirname($realFile))) {
                 mkdir($dir, 0755, true);
