@@ -122,16 +122,15 @@ class Generic implements ProcessorInterface
     /**
      * @return array
      */
-    protected function _getEnvValues()
+    protected function _getEnvValue($variable)
     {
-        $params = [];
-        foreach ($this->config['env-map'] as $param => $env) {
-            $value = getenv($env);
-            if ($value) {
-                $params[$param] = $value;
+        if (isset($this->config['env-map'])) {
+            $envMap = $this->config['env-map'];
+            if (isset($envMap[$variable])) {
+                $variable = $envMap[$variable];
             }
         }
-        return $params;
+        return getenv($variable);
     }
 
     /**
@@ -147,11 +146,10 @@ class Generic implements ProcessorInterface
             $default = @$explode[1] ?: null;
             // if default syntax is =ENV[VARIABLE_NAME] then extract VARIABLE_NAME from the environment as default value
             if (strpos($default, '=ENV[') === 0) {
-                $envs = $this->_getEnvValues();
                 $envMatch = [];
                 preg_match('/^\=ENV\[(.*)\]$/', $default, $envMatch);
                 if (isset($envMatch[1])) {
-                    $default = $envs[$envMatch[1]];
+                    $default = $this->_getEnvValue($envMatch[1]);
                 }
             }
             $question = str_replace('[]', "[$default]", $question);

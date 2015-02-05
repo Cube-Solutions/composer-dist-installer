@@ -31,9 +31,15 @@ use PHPUnit_Framework_TestCase as TestCase;
 class GenericTest extends TestCase
 {
 
+    // used to test a mapped env variable via the env-map config option
+    const TEST_ENV_VAL = 'gabriel';
     const TEST_ENV_KEY = 'CUBE_TEST_USER';
     const TEST_MAPPED_ENV_KEY = 'USER';
-    const TEST_ENV_VAL = 'gabriel';
+
+    // used to test the behavior of an env variable that hasn't been mapped
+    const TEST_UNMAPPED_ENV_KEY = 'CUBE_TEST_UNMAPPED';
+    const TEST_UNMAPPED_ENV_VAL = 'UNMAPPED_VALUE';
+
     protected $environmentBackup = [];
 
 
@@ -143,17 +149,29 @@ class GenericTest extends TestCase
     }
 
     /**
-     * Test _getEnvValues()
+     * Test _getEnvValue()
      */
-    public function testGetEnvValues()
+    public function testGetEnvValueWithoutMap()
     {
         $processor = new Generic($this->_buildIO());
         $processor->setConfig($this->_setupEnv());
-        $method = new \ReflectionMethod($processor, '_getEnvValues');
+        $method = new \ReflectionMethod($processor, '_getEnvValue');
         $method->setAccessible(true);
-        $result = $method->invoke($processor);
-        $this->assertArrayHasKey(self::TEST_MAPPED_ENV_KEY, $result);
-        $this->assertEquals(self::TEST_ENV_VAL, $result[self::TEST_MAPPED_ENV_KEY]);
+        $result = $method->invoke($processor, self::TEST_UNMAPPED_ENV_KEY);
+        $this->assertEquals(self::TEST_UNMAPPED_ENV_VAL, $result);
+    }
+
+    /**
+     * Test _getEnvValue()
+     */
+    public function testGetEnvValueWithMap()
+    {
+        $processor = new Generic($this->_buildIO());
+        $processor->setConfig($this->_setupEnv());
+        $method = new \ReflectionMethod($processor, '_getEnvValue');
+        $method->setAccessible(true);
+        $result = $method->invoke($processor, self::TEST_MAPPED_ENV_KEY);
+        $this->assertEquals(self::TEST_ENV_VAL, $result);
     }
 
     /**
@@ -232,6 +250,10 @@ class GenericTest extends TestCase
     protected function _setupEnv($config = null) {
         $this->environmentBackup[self::TEST_ENV_KEY] = getenv(self::TEST_ENV_KEY);
         putenv(self::TEST_ENV_KEY . '=' . self::TEST_ENV_VAL);
+
+        $this->environmentBackup[self::TEST_UNMAPPED_ENV_KEY] = getenv(self::TEST_UNMAPPED_ENV_KEY);
+        putenv(self::TEST_UNMAPPED_ENV_KEY . '=' . self::TEST_UNMAPPED_ENV_VAL);
+
         if (!$config) {
             $config = [
                 'file' => 'test',
