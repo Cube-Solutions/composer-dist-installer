@@ -60,7 +60,7 @@ class Handler
         }
 
         foreach ($configs as $config) {
-            $processorType = isset($config['type']) ? $config['type'] : $this->_detectProcessorForFile($config['file']);
+            $processorType = isset($config['type']) ? $config['type'] : __NAMESPACE__ . '\\Processor\\Generic';
             /** @var ProcessorInterface $processor */
             $processor = $this->_getProcessorForType($processorType, $event->getIO());
             $processor->process($config);
@@ -82,16 +82,4 @@ class Handler
         return $this->processors[$type];
     }
 
-    /**
-     * @param $file
-     * @return string
-     */
-    protected function _detectProcessorForFile($file)
-    {
-        //TODO: see commented code below
-        return __NAMESPACE__ . '\\Processor\\Generic';
-
-        /*$ext = pathinfo($file, PATHINFO_EXTENSION);
-        return __NAMESPACE__ . '\\Processor\\' . ucfirst($ext);*/
-    }
 }

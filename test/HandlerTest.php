@@ -47,19 +47,6 @@ class HandlerTest extends TestCase
         }, $toDelete);
     }
 
-
-    /**
-     * Test _detectProcessorForFile
-     */
-    public function testDetectProcessorForFile()
-    {
-        $handler = new Handler();
-        $reflection = new \ReflectionMethod($handler, '_detectProcessorForFile');
-        $reflection->setAccessible(true);
-        $result = $reflection->invokeArgs($handler, ['test']);
-        $this->assertEquals(self::PROCESSOR_TYPE_GENERIC, $result);
-    }
-
     /**
      * Test _getProcessorForType returns a Processor
      */
