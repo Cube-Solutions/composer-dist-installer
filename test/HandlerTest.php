@@ -26,6 +26,7 @@ use Composer\Composer;
 use Composer\Script\Event;
 use Cube\ComposerDistInstaller\Handler;
 use PHPUnit_Framework_TestCase as TestCase;
+use Mockery as m;
 
 /**
  * Class HandlerTest
@@ -45,6 +46,14 @@ class HandlerTest extends TestCase
         array_map(function($val){
            @unlink(__DIR__ . $val);
         }, $toDelete);
+    }
+
+    /**
+     * tearDown
+     */
+    protected function tearDown()
+    {
+        m::close();
     }
 
     /**
@@ -118,41 +127,16 @@ class HandlerTest extends TestCase
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _buildIO(){
-       return  $this->getMockBuilder('Composer\\IO\\IOInterface')
-           ->disableOriginalConstructor()
-           ->getMock();
+       return m::mock('Composer\\IO\\IOInterface');
     }
 
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _buildEvent($extra) {
-        $package = $this->getMockBuilder('Composer\\Package\\RootPackage')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $package->expects($this->once())
-            ->method('getExtra')
-            ->willReturn($extra);
-
-        $composer = $this->getMockBuilder('Composer\\Composer')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $composer->expects($this->once())
-            ->method('getPackage')
-            ->willReturn($package);
-
-        $io = $this->getMock('Composer\\IO\\IOInterface');
-
-        $event = $this->getMockBuilder('Composer\\Script\\Event')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $event->expects($this->once())
-            ->method('getComposer')
-            ->willReturn($composer);
-        $event->expects($this->any())
-            ->method('getIO')
-            ->willReturn($io);
+        $event = m::mock('Composer\\Script\\Event');
+        $event->shouldReceive('getComposer->getPackage->getExtra')->once()->andReturn($extra);
+        $event->shouldReceive('getIO')->zeroOrMoreTimes()->andReturn($this->_buildIO());
         return $event;
     }
 
