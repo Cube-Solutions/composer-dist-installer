@@ -154,7 +154,7 @@ class HandlerTest extends TestCase
         $handler = $this->getMock(self::CLASS_NAME, ['_getProcessorForType']);
         $handler->expects($this->exactly($getProcessorForTypeCount))
             ->method('_getProcessorForType')
-            ->willReturn($processor);
+            ->will($this->returnValue($processor));
         return $handler;
     }
 
