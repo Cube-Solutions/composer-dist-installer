@@ -138,7 +138,7 @@ class GenericTest extends TestCase
         if ($question !== null) {
             $io->expects($this->once())
                 ->method('ask')
-                ->willReturnArgument(1);
+                ->will($this->returnArgument(1));
         }
 
         $config = $this->_setupEnv();
@@ -190,7 +190,7 @@ class GenericTest extends TestCase
         if (isset($config['confirmation'])) {
             $io->expects($this->once())
                 ->method('askConfirmation')
-                ->willReturn((bool) $config['confirmation']);
+                ->will($this->returnValue((bool) $config['confirmation']));
             if ($config['confirmation'] == false) {
                 $writeCount = 0;
                 $assertFileExists = false;
@@ -202,7 +202,7 @@ class GenericTest extends TestCase
             ->method('write');
         $io->expects($this->any())
             ->method('ask')
-            ->willReturnArgument(1);
+            ->will($this->returnArgument(1));
 
         $processor->process($processorConfig);
         $expectedFile = $processor->getConfig()['file'];
