@@ -28,7 +28,7 @@ Add the following into your root `composer.json` file:
     },
     "extra": {
         "dist-installer-params": {
-            "file": "config/autoload/database.config.php.dist"
+            "file": "config/autoload/database.config.php"
         }
     }
 }
