@@ -143,15 +143,18 @@ class Generic implements ProcessorInterface
         if (count($matches) > 1) {
             $explode = explode('|', $matches[1]);
             $question = $explode[0];
-            $default = @$explode[1] ?: null;
-            // if default syntax is =ENV[VARIABLE_NAME] then extract VARIABLE_NAME from the environment as default value
-            if (strpos($default, '=ENV[') === 0) {
-                $envMatch = [];
-                preg_match('/^\=ENV\[(.*)\]$/', $default, $envMatch);
-                if (isset($envMatch[1])) {
-                    $default = $this->_getEnvValue($envMatch[1]);
+            $index = 0;
+            do {
+                $default = @$explode[++$index] ?: null;
+                // if default syntax is =ENV[VARIABLE_NAME] then extract VARIABLE_NAME from the environment as default value
+                if (strpos($default, '=ENV[') === 0) {
+                    $envMatch = [];
+                    preg_match('/^\=ENV\[(.*)\]$/', $default, $envMatch);
+                    if (isset($envMatch[1])) {
+                        $default = $this->_getEnvValue($envMatch[1]);
+                    }
                 }
-            }
+            } while( empty($default) && $index < count($explode) );
             $question = str_replace('[]', "[$default]", $question);
             $result = $this->getIO()->ask(rtrim($question) . ' ', $default);
         }

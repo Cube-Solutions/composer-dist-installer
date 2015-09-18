@@ -40,6 +40,11 @@ class GenericTest extends TestCase
     const TEST_UNMAPPED_ENV_KEY = 'CUBE_TEST_UNMAPPED';
     const TEST_UNMAPPED_ENV_VAL = 'UNMAPPED_VALUE';
 
+    // used to test not existing env variables
+    const TEST_UNKNOWN_ENV_KEY = 'UNKNOWN_ENV_KEY';
+    const TEST_UNKNOWN_ENV_KEY2 = 'UNKNOWN_ENV_KEY2';
+
+
     protected $environmentBackup = [];
 
 
@@ -295,12 +300,19 @@ class GenericTest extends TestCase
     public function templateReplaceProvider()
     {
         $envKey = self::TEST_MAPPED_ENV_KEY;
+        $unknownEnvKey = self::TEST_UNKNOWN_ENV_KEY;
+        $unknownEnvKey2 = self::TEST_UNKNOWN_ENV_KEY2;
+
         return [
             [['test'], null, 'test'],
             [['{{ }}', ' '], ' ', null],
             [['{{username}}', 'username'], 'username', null],
             [['{{username|john.doe}}', 'username|john.doe'], 'username', 'john.doe'],
             [["{{environment|=ENV[$envKey]}}", "environment|=ENV[$envKey]"], 'environment', self::TEST_ENV_VAL],
+            [["{{environment|=ENV[$envKey]|localhost}}", "environment|=ENV[$envKey]|localhost"], 'environment', self::TEST_ENV_VAL],
+            [["{{environment|=ENV[$unknownEnvKey]|localhost}}", "environment|=ENV[$unknownEnvKey]|localhost"], 'environment', 'localhost'],
+            [["{{environment|=ENV[$unknownEnvKey]|=ENV[$envKey]|localhost}}", "environment|=ENV[$unknownEnvKey]|=ENV[$envKey]|localhost"], 'environment', self::TEST_ENV_VAL],
+            [["{{environment|=ENV[$unknownEnvKey]|=ENV[$unknownEnvKey2]|localhost}}", "environment|=ENV[$unknownEnvKey]|=ENV[$unknownEnvKey2]|localhost"], 'environment', 'localhost'],
         ];
     }
 

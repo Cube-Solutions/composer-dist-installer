@@ -162,6 +162,29 @@ It is possible to use environment values in order to set default values for para
 
 In the example above, the following line used the `USER` environment variable as a default value:
 
+### Multiple defaults for a parameter
+It is also possible to have multiple default values (eg `{{QUESTION|DEFAULT1|DEFAULT2}}`.
+This can be useful if you want to use environment variables as a default and, in case the environment variable is not set, fall back to a hardcoded default value.
+
+Hence, you can write in your dis file for instance:
+```yaml
+myVar: {{"My var []?|=ENV[MY_VAR]|my_default_var}}
+```
+
+If the MY_VAR environment variable is set to 'foobar', the question will be:
+```
+My var [foobar]?
+```
+
+If the MY_VAR environment variable is not set, the question will be:
+```
+My var [my_default_var]?
+```
+
+### Non-interactive mode
+When composer is launched with `--no-interaction` option, the default value is applied.
+This can be a good option for deployment process, in case you use environment variables in your dist file.
+
 # LICENSE
 See `LICENSE.txt` file in this same package.
 
